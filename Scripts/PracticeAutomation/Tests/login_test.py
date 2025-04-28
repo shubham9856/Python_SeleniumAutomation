@@ -2,9 +2,7 @@ import pytest
 import json
 import time
 
-from selenium.webdriver.remote.webdriver import WebDriver
-
-from Scripts.Pages.LoginPage import LoginPage
+from Scripts.PracticeAutomation.Pages.LoginPage import LoginPage
 
 
 @pytest.mark.usefixtures("driver_instance")
@@ -19,6 +17,7 @@ class TestLoginPage:
     def test_valid_login(self, test_data_items):
         self.driver.get("https://practicetestautomation.com/practice-test-login/")
 
+        # Created LoginPage object to use BrowserUtilities methods via page object
         login_page_obj = LoginPage(self.driver)
 
         print("Page Url Title: ", login_page_obj.get_title())
