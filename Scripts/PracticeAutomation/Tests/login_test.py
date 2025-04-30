@@ -20,7 +20,7 @@ class TestLoginPage:
         # Created LoginPage object to use BrowserUtilities methods via page object
         login_page_obj = LoginPage(self.driver)
 
-        print("Page Url Title: ", login_page_obj.get_title())
+        print("Page Url Title: ", login_page_obj.getTitle())
 
         login_header = self.driver.find_element(*login_page_obj.lc_login_header)
         assert "Test login" == login_header.text
