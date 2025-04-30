@@ -1,7 +1,4 @@
 from collections import namedtuple
-
-from selenium.webdriver.common.by import By
-
 from Utilities.BrowserUtilities import BrowserUtilities
 
 

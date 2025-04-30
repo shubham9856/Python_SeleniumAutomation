@@ -5,9 +5,7 @@ from Scripts.NopCommerce.Pages.Homepage import Homepage
 
 @pytest.mark.usefixtures("driver_instance")
 class TestHomePageContent:
-
     def test_top_nav_content(self):
-
         home_page = Homepage(self.driver)
 
         home_page.getUrl("https://demo.nopcommerce.com/")
