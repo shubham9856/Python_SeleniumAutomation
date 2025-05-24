@@ -6,15 +6,16 @@ from selenium import webdriver
 
 
 def pytest_addoption(parser):
-    parser.addoption("--browser_name", action="store", default="chrome", help="Browser option selection")
+    parser.addoption("--browser", action="store", default="chrome", help="Browser option selection")
 
 
 @pytest.fixture(scope="class")
 def driver_instance(request):
-    browser_name = request.config.getoption("browser_name")
+    browser_name = request.config.getoption("browser")
 
     if browser_name == "chrome":
         chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--headless")
         chrome_options.add_argument("--incognito")
         driver = webdriver.Chrome(options=chrome_options)
 

@@ -2,6 +2,8 @@
 import os
 from datetime import datetime
 from typing import NamedTuple
+
+from selenium.common.exceptions import NoSuchElementException, ElementNotSelectableException, ElementNotVisibleException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import ActionChains
 from selenium.webdriver.remote.webelement import WebElement
@@ -55,16 +57,38 @@ class BrowserUtilities:
             self.screenShot(f"Element is present -{locator}")
             # return None
 
-    def waitForElement(self, locator: NamedTuple):
+    def waitForElement(self, locator: NamedTuple, timeout=30, poll_frequency=3):
         try:
-            wait = WebDriverWait(self.driver, timeout=30, poll_frequency=1)
-            element = wait.until(EC.element_to_be_clickable((locator[1], locator[0])))
+            loc_type = locator[1]
+            element = locator[0]
+            wait = WebDriverWait(self.driver, timeout=timeout, poll_frequency=poll_frequency,
+                                 ignored_exceptions=[NoSuchElementException, ElementNotVisibleException,
+                                                     ElementNotSelectableException])
+            element = wait.until(EC.element_to_be_clickable((loc_type, element)))
             return element
         except:
-            print("^%&*()__+)(*&^")
             self.screenShot(f"Element not present- {locator}")
-            # return None
+            return
 
+    def wait_for_visible(self, locator: NamedTuple, timeout=30, poll_frequency=3):
+        try:
+            loc_type = locator[1]
+            element = locator[0]
+            wait = WebDriverWait(self.driver, timeout=timeout, poll_frequency=poll_frequency,
+                                 ignored_exceptions=[NoSuchElementException, ElementNotVisibleException,
+                                                     ElementNotSelectableException])
+            element = wait.until(EC.visibility_of_element_located((loc_type, element)))
+            return element
+        except:
+            self.screenShot(f"Element not located-{locator}")
+            return
+
+    def element_click(self, element):
+        try:
+            element.click()
+        except:
+            print("Element is not clickable")
+            return
     def mouse_hover(self, element: WebElement):
         actions = ActionChains(self.driver)
         actions.move_to_element(element).perform()
